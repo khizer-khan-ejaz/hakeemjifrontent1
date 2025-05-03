@@ -1,12 +1,13 @@
 "use client"
 
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Blogs from "./Blogs"
-import { useSelector } from "react-redux"
 
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-page-custom-font */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-const BlogsContainer = ({ allBlogs }) => {
+const BlogsContainer = ({ allBlogs } : any) => {
 
 	const [blogs, setBlogs] = useState(allBlogs);
 	// const[loading , setLoading] = useState(true)
@@ -44,7 +45,7 @@ const BlogsContainer = ({ allBlogs }) => {
 		<div>
 			{blogs.length > 0 ? <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[10px] rounded-lg'>
 
-				{blogs.map((blog, index: number) => {
+				{blogs.map((blog :any , index: number) => {
 					return (<Blogs blog={blog} key={index} setBlogs={setBlogs} />)
 				})}
 			</div> : <div className='w-full h-full flex justify-center items-center flex-col gap-[5px] relative'>

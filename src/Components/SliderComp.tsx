@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {motion} from "framer-motion"
 import { IoAddCircleSharp} from "react-icons/io5";
 // import Image from 'next/image';
@@ -51,7 +51,7 @@ const SliderComp = () => {
 			<div className=' flex justify-center items-start flex-col w-[50%]'>
 				<h3 className='text-left font-semibold text-[25px]'> Herbal health centers
 				for Unani treatment </h3>
-				<p className='text-[15px]'>Good health and natural wellness for all, coupled with care and compassion at an affordable price, have been the guiding principles that Hamdard has embraced and practised since its inception. A significant stride in this direction is 'Hamdard Wellness,' dedicated to providing selfless healthcare aimed at enhancing the quality of human life.</p>
+				<p className='text-[15px]'>Good health and natural wellness for all, coupled with care and compassion at an affordable price, have been the guiding principles that Hamdard has embraced and practised since its inception. A significant stride in this direction is &apos;Hamdard Wellness , &apos; dedicated to providing selfless healthcare aimed at enhancing the quality of human life.</p>
 
 {/* button containers */}
 				<div className='flex gap-[15px]'>

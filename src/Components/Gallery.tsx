@@ -1,14 +1,20 @@
+"use client"
+
 import { authorityDenied, checkAuthority } from '@/lib/utils/checkAdmin';
 import { showToast } from '@/lib/utils/toast';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { MdCancel } from "react-icons/md";
 
-const Gallery = ({ setAllGalleries, gallery }) => {
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-page-custom-font */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+const Gallery = ({ setAllGalleries, gallery } : { setAllGalleries : any , gallery : any }) => {
 
 	const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-	const handleDeleteGallery = async (e) => {
+	const handleDeleteGallery = async (e:any) => {
 
 		const isAuthority = checkAuthority();
 		if(!isAuthority){
@@ -18,12 +24,12 @@ const Gallery = ({ setAllGalleries, gallery }) => {
 
 		try {
 			e.stopPropagation();
-			const res = await axios({
+			 await axios({
 				url: `${backendUrl}/gallery/delete/${gallery._id}`,
 				method: "delete"
 			})
-			setAllGalleries(prev => {
-				return prev.filter(p => {
+			setAllGalleries((prev:any) => {
+				return prev.filter((p:any) => {
 					return p._id != gallery._id
 				})
 			})
@@ -34,7 +40,11 @@ const Gallery = ({ setAllGalleries, gallery }) => {
 		}
 	}
 
-	const[isAdmin , setIsAdmin] = useState(localStorage.getItem("admin") ? true : false)
+	const[isAdmin , setIsAdmin] = useState<any>()
+
+	useEffect(()=>{
+		setIsAdmin(localStorage?.getItem("admin") ? true : false)
+	},[])
 
 
 

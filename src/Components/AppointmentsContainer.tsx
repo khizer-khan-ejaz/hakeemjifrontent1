@@ -3,7 +3,11 @@
 import React, { useState } from 'react'
 import Appointments from './Appointments'
 
-const AppointmentsContainer = ({ appointments: app }) => {
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-page-custom-font */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+const AppointmentsContainer = ({ appointments: app }: any) => {
 
 	const [appointments, setAppointments] = useState(app)
 
@@ -21,7 +25,7 @@ const AppointmentsContainer = ({ appointments: app }) => {
 				{/* all appointments container */}
 				<div className="w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[10px]">
 					{appointments.length > 0 ? (
-						appointments.map((a, index: number) => (
+						appointments.map((a:any, index: number) => (
 							<Appointments setAppointments = {setAppointments} appointment={a} key={index} />
 						))
 					) : (

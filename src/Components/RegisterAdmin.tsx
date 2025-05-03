@@ -39,7 +39,13 @@ const RegisterAdmin = () => {
 				dispatch(setUser(res.data));
 
 				// setting the user in localstorage
-				localStorage.setItem("admin", JSON.stringify(res.data))
+				// if(localStorage){
+				// 	localStorage.setItem("admin", JSON.stringify(res.data))
+				// }
+
+				if (typeof window !== "undefined") {
+					localStorage.setItem("admin", JSON.stringify(res.data));
+				  }
 
 				// redirect to the home page
 				router.push("/")

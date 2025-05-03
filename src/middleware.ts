@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
+
+
+  console.log("inside the middleware file")
+
   const adminCookie = request.cookies.get('access-token')?.value
   const { pathname } = request.nextUrl
 

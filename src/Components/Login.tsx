@@ -1,5 +1,9 @@
 "use client"
 
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-page-custom-font */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useDispatch } from "react-redux"
@@ -34,7 +38,11 @@ const Login = () => {
 				dispatch(setUser(loginResponse.data))
 
 				// now storing the admin user in local storage
-				localStorage.setItem("admin", JSON.stringify(loginResponse.data))
+				// if(localStorage) localStorage?.setItem("admin", JSON.stringify(loginResponse.data))
+
+					if (typeof window !== 'undefined') {
+						localStorage.setItem("admin", JSON.stringify(loginResponse.data));
+					  }
 
 				// clearing the email and password
 				setEmail('');
@@ -45,7 +53,8 @@ const Login = () => {
 				showToast("Login Successfully" , true)
 
 			} else {
-				alert("wrong email or password")
+				showToast("wrong email or password" , false)
+				// alert("wrong email or password")
 			}
 
 
@@ -54,8 +63,8 @@ const Login = () => {
 		}
 	}
 
-	const handleForgetPassword = async () => {
-	}
+	// const handleForgetPassword = async () => {
+	// }
 
 	// const handleChangeSecretCode = async()=>{
 	// }

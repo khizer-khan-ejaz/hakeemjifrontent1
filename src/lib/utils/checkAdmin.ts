@@ -1,7 +1,9 @@
+"use client"
+
 import { showToast } from "./toast";
 
 export const checkAuthority = () => {
-	return Boolean(localStorage.getItem("admin"));
+	return Boolean(localStorage?.getItem("admin"));
   };
   
 export const authorityDenied = ()=>{

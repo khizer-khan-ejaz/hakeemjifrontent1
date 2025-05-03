@@ -1,18 +1,24 @@
 "use client"
 
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-page-custom-font */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React, { useEffect, useState } from 'react'
 import Gallery from './Gallery'
 import AdminCreateGallery from './AdminCreateGallery'
 
-const GalleryContainer = ({ galleries }) => {
+const GalleryContainer = ({ galleries } : any) => {
 
 	const [allGalleries, setAllGalleries] = useState(galleries)
-	const isAdmin = localStorage.getItem("admin") || undefined
+	// const isAdmin = localStorage?.getItem("admin") || undefined
+	const[isAdmin , setIsAdmin] = useState<any>()
 	const [isCreateGalleryPopupOpen, setIsCreateGalleryPopupOpen] = useState(false);
 
 	useEffect(() => {
 		console.log("inside the use effect ")
 		setAllGalleries(galleries)
+		setIsAdmin(localStorage?.getItem("admin") || undefined)
 	}, [galleries])
 
 
@@ -49,7 +55,7 @@ const GalleryContainer = ({ galleries }) => {
 				<h2 className='md:text-[35px] font-semibold text-center'>No Galleries Created Yet</h2>
 				</div>} */}
 
-				{allGalleries.length > 0 ? allGalleries.map((g, index: Number) => {
+				{allGalleries.length > 0 ? allGalleries.map((g:any, index: number) => {
 					return <Gallery setAllGalleries={setAllGalleries} key={index} gallery={g} />
 				}) : <div className='w-full h-full flex justify-center items-center'>
 					<h2 className='md:text-[35px] font-semibold text-center'>No Galleries Created Yet</h2>

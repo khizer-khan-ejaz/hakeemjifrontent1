@@ -9,6 +9,11 @@ import { MdCancel } from "react-icons/md";
 import { useRouter } from 'next/navigation';
 import { showToast } from '@/lib/utils/toast';
 import { authorityDenied, checkAuthority } from '@/lib/utils/checkAdmin';
+import { MdDelete } from "react-icons/md";
+
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-page-custom-font */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 interface ContentInfoType {
 	heading: string
@@ -19,7 +24,7 @@ interface ContentInfoType {
 
 
 
-const ContentComp = ({ containerRef, content, setContent }) => {
+const ContentComp = ({ containerRef, content, setContent } : any) => {
 
 
 	const [contentInfo, setContentInfo] = useState<ContentInfoType>({
@@ -36,9 +41,9 @@ const ContentComp = ({ containerRef, content, setContent }) => {
 		if (containerRef.current) {
 			containerRef.current.scrollTop = containerRef.current.scrollHeight - containerRef.current.clientHeight;
 		}
-	}, [contentInfo, isAddListClicked])
+	}, [contentInfo, isAddListClicked , containerRef])
 
-	const handleAddPoint = (e) => {
+	const handleAddPoint = (e:any) => {
 		e.preventDefault()
 		if (!point) return
 		setContentInfo(prev => {
@@ -47,20 +52,38 @@ const ContentComp = ({ containerRef, content, setContent }) => {
 		setPoint("");
 	}
 
-	const handleKeyPressing = (e) => {
+	const handleKeyPressing = (e:any) => {
 		if (e.key == "Enter") {
 			handleAddPoint(e)
 		}
 	}
 
-	const handleContentFormSubmit = (e) => {
+	const handleContentFormSubmit = (e : any) => {
 		e.preventDefault();
 		if (!contentInfo.heading) return
-		setContent(prev => {
+		setContent((prev:any) => {
 			return [...prev, contentInfo]
 		})
-		setContentInfo(prev => {
-			return { heading: "", des: "", list: [] }
+		setContentInfo({ heading: "", des: "", list: [] })
+	}
+
+	const handleDeleteContent = async(index:number)=>{
+		// now we have to delete that index from the content
+		setContent((prev : any)=>{
+			const newContentAfterDeleting = prev.filter((p : any,ind:number)=>{
+				return ind != index
+			})
+			return newContentAfterDeleting
+		})
+	}
+
+	const handlePrevPointChange = (index : number , e : any)=>{
+		setContentInfo(prev=>{
+			const newList = prev.list.map((p , ind)=>{
+				if(ind == index) return e.target.value
+				else return p
+			})
+			return {...prev , list : newList}
 		})
 	}
 
@@ -73,9 +96,17 @@ const ContentComp = ({ containerRef, content, setContent }) => {
 			{content.length > 0 && <div className='flex justify-center items-center'>
 				<span className='md:text-[20px]'> Blogs Content </span>
 			</div>}
+
+			{/* to display the previous content */}
 			<div className='w-full flex flex-col gap-[10px]'>
-				{content.map((c, index: number) => {
-					return <div key={index} className='w-full flex flex-col gap-[5px] border-[1px] border-solid border-gray-200 rounded-lg p-[5px]'>
+				{content.map((c:any, index: number) => {
+					return <div key={index} className='w-full flex flex-col gap-[5px] border-[1px] border-solid border-gray-200 rounded-lg p-[5px] relative'>
+
+						{/* delete button to delete this content */}
+						<div onClick={()=> handleDeleteContent(index)} className='absolute right-0 top-0 cursor-pointer p-0 m-0'>
+							<MdDelete size={"20px"} className='p-0 m-0' />
+						</div>
+						
 						{/* heading container */}
 						<div className='w-full flex flex-col gap-[5px]'>
 							<span className='p-[4px] font-[500] md:text-[18px] rounded-md '> {c.heading} </span>
@@ -89,7 +120,7 @@ const ContentComp = ({ containerRef, content, setContent }) => {
 						{/* list container */}
 						<div className='w-full flex flex-col gap-[5px]'>
 							<ul className='list-disc ml-[25px]'>
-								{c.list.map((l, index: number) => {
+								{c.list.map((l:any, index: number) => {
 									return <li className='px-[10px] py-[7px] rounded-md' key={index}> {l} </li>
 								})}
 							</ul>
@@ -132,11 +163,11 @@ const ContentComp = ({ containerRef, content, setContent }) => {
 							<span>Enter points</span>
 
 							{contentInfo.list.map((l, index: number) => {
-								return <input key={index} value={l} className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" placeholder='enter point' />
+								return <input key={index} value={l} className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" placeholder='enter point' onChange={(e)=>handlePrevPointChange(index , e)} />
 							})}
 
 							<div className='w-full flex flex-col gap-[5px]'>
-								<input onKeyDown={(e) => handleKeyPressing(e)} value={point} onChange={(e) => [setPoint(e.target.value)]} className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" placeholder='enter point' />
+								<input onKeyDown={(e) => handleKeyPressing(e)} value={point} onChange={(e) => setPoint(e.target.value)} className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" placeholder='enter point' />
 								<button onClick={(e) => handleAddPoint(e)} className='bg-[#65AAA1] hover:bg-[#4F8C83] text-white font-semibold px-[5px] py-[8px] flex gap-[5px] justify-center items-center rounded-md' type='submit'>Add <IoAdd className='text-white' size={"20px"} /> </button>
 							</div>
 						</div>
@@ -152,17 +183,26 @@ const ContentComp = ({ containerRef, content, setContent }) => {
 	)
 }
 
-const AdminCreateBlogs = ({prevBlog = {}}) => {
+type BlogType = {
+	title : string,
+	des : string,
+	metaTitle : string,
+	metaDescription : string,
+	slug : string,
+	url : string,
+	content : any,
+	isEdit : any
+}
 
-	console.log("prev blog is " , prevBlog)
+const AdminCreateBlogs = ({prevBlog = {} as BlogType}) => {
 
 	const [blogInfo, setBlogInfo] = useState({
 		title: prevBlog.title ||  "",
 		des: prevBlog.des ||  "",
-		metaTitle: prevBlog ||  "",
-		metaDescription:  prevBlog || "",
-		slug: prevBlog.slug ||  "",
-		coverImage: prevBlog || undefined
+		metaTitle: prevBlog?.metaTitle ||  "",
+		metaDescription:  prevBlog.metaDescription || "",
+		slug: prevBlog?.slug ||  "",
+		coverImage: prevBlog?.url || undefined
 	})
 
 	const [content, setContent] = useState([])
@@ -171,17 +211,19 @@ const AdminCreateBlogs = ({prevBlog = {}}) => {
 		setBlogInfo({
 			title: prevBlog.title ||  "",
 		des: prevBlog.des ||  "",
-		metaTitle: prevBlog ||  "",
-		metaDescription:  prevBlog || "",
-		slug: prevBlog ||  "",
-		coverImage: prevBlog || undefined
+		metaTitle: prevBlog?.metaTitle ||  "",
+		metaDescription:  prevBlog?.metaDescription || "",
+		slug: prevBlog?.slug ||  "",
+		coverImage: prevBlog?.url || undefined
 		})
 		setContent(prevBlog.content || []);
+		
 	},[])
 
 	console.log("current blog is " , blogInfo)
+	console.log("current content is " , content)
 
-	const handleInputChange = (e, prop) => {
+	const handleInputChange = (e:any, prop:any) => {
 		setBlogInfo(prev => {
 			return { ...prev, [prop]: e.target.value }
 		})
@@ -189,8 +231,8 @@ const AdminCreateBlogs = ({prevBlog = {}}) => {
 
 	const [isContentClicked, setIsContentClicked] = useState(false);
 
-	const containerRef = useRef()
-	const imageInputRef = useRef();
+	const containerRef = useRef(null)
+	const imageInputRef = useRef<any>(null);
 	const [imagePreview, setImagePreview] = useState<string>('');
 	const router = useRouter();
 
@@ -214,8 +256,9 @@ const AdminCreateBlogs = ({prevBlog = {}}) => {
 			formData.append("metaTitle", blogInfo.metaTitle)
 			formData.append("metaDescription", blogInfo.metaDescription)
 			formData.append("slug", blogInfo.slug)
-			formData.append("file", blogInfo.coverImage)
+			if(blogInfo.coverImage) formData.append("file", blogInfo.coverImage)
 			formData.append("content", JSON.stringify(content))
+			if(prevBlog.isEdit) formData.append("isEdit" , prevBlog.isEdit)
 
 			console.log("blgos data is ", formData)
 
@@ -225,7 +268,12 @@ const AdminCreateBlogs = ({prevBlog = {}}) => {
 				data: formData
 			})
 			router.push("/blogs");
-			showToast("Blog created successfully" , true)
+
+			const blogResponse = res.data
+
+			if(blogResponse.success){
+				showToast("Blog created successfully" , true)
+			}
 
 		} catch (err : any) {
 			console.log("Error in handleCreateBlog ", err)
@@ -233,7 +281,7 @@ const AdminCreateBlogs = ({prevBlog = {}}) => {
 		}
 	}
 
-	const handleImageChange = (e) => {
+	const handleImageChange = (e:any) => {
 		const ImageFile = e.target.files[0];
 		console.log(ImageFile)
 		setBlogInfo(prev => {
@@ -247,7 +295,7 @@ const AdminCreateBlogs = ({prevBlog = {}}) => {
 			return { ...prev, coverImage: undefined }
 		})
 		setImagePreview("")
-		imageInputRef.current.value = ""
+		if(imageInputRef.current) imageInputRef.current.value = ""
 	}
 
 	return (
@@ -265,9 +313,9 @@ const AdminCreateBlogs = ({prevBlog = {}}) => {
 				<div className='flex flex-col w-[90%] md:w-[70%] gap-[8px]'>
 					<span>* Enter Cover Image of Blog</span>
 					<input onChange={handleImageChange} ref={imageInputRef} type="file" hidden />
-					{!imagePreview && <CiImageOn className='cursor-pointer' onClick={() => imageInputRef.current.click()} size={"25px"} />}
-					{imagePreview && <div className='flex gap-[5px] relative'>
-						<img src={imagePreview} alt="preview-image" className='object-contain h-full w-[90%] rounded-lg' />
+					{(!imagePreview || !blogInfo.coverImage) && <CiImageOn className='cursor-pointer' onClick={() => imageInputRef.current.click()} size={"25px"} />}
+					{(imagePreview || blogInfo.coverImage )&& <div className='flex gap-[5px] relative'>
+						<img src={imagePreview || blogInfo.coverImage} alt="preview-image" className='object-contain h-full w-[90%] rounded-lg' />
 						<span onClick={handleCancelImage} className='absolute cursor-pointer right-0 top-0' > <MdCancel size={"20px"} /> </span>
 					</div>}
 				</div>
@@ -289,14 +337,14 @@ const AdminCreateBlogs = ({prevBlog = {}}) => {
 
 				<div className='flex flex-col w-[90%] md:w-[70%] gap-[8px]'>
 					<span>Enter meta description</span>
-					<textarea value={blogInfo.metaDescription} className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" onChange={(e) => handleInputChange(e, "metaDescription")} placeholder='meta description' />
+					<textarea value={blogInfo.metaDescription} className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md '  onChange={(e) => handleInputChange(e, "metaDescription")} placeholder='meta description' />
 				</div>
 
 				{/* area for content */}
 
 				<div className='flex flex-col w-[90%] md:w-[70%] gap-[10px]'>
-					{!isContentClicked && <button onClick={() => setIsContentClicked(prev => !prev)} className='cursor-pointer bg-[#65AAA1] hover:bg-[#4F8C83]  text-white px-[5px] py-[8px] rounded-md font-semibold'>Add Content</button>}
-					{isContentClicked && <ContentComp containerRef={containerRef} content={content} setContent={setContent} />}
+					{ (!isContentClicked || !content.length ) && <button onClick={() => setIsContentClicked(prev => !prev)} className='cursor-pointer bg-[#65AAA1] hover:bg-[#4F8C83]  text-white px-[5px] py-[8px] rounded-md font-semibold'>Add Content</button>}
+					{(isContentClicked || content.length > 0) && <ContentComp containerRef={containerRef} content={content} setContent={setContent} />}
 				</div>
 
 				{/* blog submit button container */}

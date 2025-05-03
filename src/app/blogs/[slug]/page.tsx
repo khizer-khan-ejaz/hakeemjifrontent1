@@ -9,14 +9,20 @@ import { formatDate } from '@/lib/utils/formatDate';
 import { CiEdit } from "react-icons/ci";
 import {useRouter} from "next/navigation"
 
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-page-custom-font */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 const BlogPage = () => {
 
 	const { slug } = useParams();
 	const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-	const [blog, setBlog] = useState(undefined)
+	const [blog, setBlog] = useState<any>(undefined)
 	const [loading, setLoading] = useState(true)
 
-	const user = localStorage.getItem("admin") || undefined
+	// const user = localStorage?.getItem("admin") || undefined
+	const[user ,setUser] = useState<any>()
+
 	const router = useRouter();
 
 	const getBlogByParams = async () => {
@@ -37,6 +43,7 @@ const BlogPage = () => {
 	}
 
 	useEffect(() => {
+		setUser(localStorage?.getItem("admin") || undefined)
 		getBlogByParams();
 	}, [slug])
 
@@ -68,9 +75,8 @@ const BlogPage = () => {
 
 	const handleClickEditButton = async()=>{
 		try{
-			const encodedData = encodeURIComponent(JSON.stringify(blog));
-			router.push(`/admin/createblogs?blogData=${encodedData}`)
-		}catch(err){
+			router.push(`/admin/createblogs?edit=${blog?.slug}`)
+		}catch(err:any){
 			console.log("Error in handleClickEditButton " , err.message)
 		}
 	}
@@ -103,7 +109,7 @@ const BlogPage = () => {
 
 				{/* blogs content container */}
 				<div className='w-[90%] flex flex-col gap-[10px] py-[10px]'>
-					{blog?.content?.map((cont , index : number)=>{
+					{blog?.content?.map((cont : any, index : number)=>{
 						return(
 							<div key={index}>
 								<ContentContainer  heading={cont.heading} des={cont.des} list={cont.list} />

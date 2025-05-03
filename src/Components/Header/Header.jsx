@@ -1,4 +1,9 @@
 "use client"
+
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-page-custom-font */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useRouter , usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react'
 import { MdAccountCircle } from "react-icons/md";
@@ -21,9 +26,9 @@ const Header = () => {
   const pathname = usePathname();
 
   const router = useRouter();
-  const [isAdmin , setIsAdmin] = useState(localStorage.getItem("admin") ? true : false)
+  const [isAdmin , setIsAdmin] = useState(undefined)
   useEffect(()=>{
-    setIsAdmin(localStorage.getItem("admin") ? true : false)
+    setIsAdmin(localStorage?.getItem("admin") ? true : false)
   },[pathname])
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -42,7 +47,7 @@ const Header = () => {
       }
 
       // removing the admin from localStorage
-      localStorage.clear("admin")
+      localStorage?.clear("admin")
       setIsAdmin(false)
       dispatch(setUser(undefined))
       
@@ -91,8 +96,8 @@ const Header = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-[#717275] font-[800] text-[16px] hover:text-gray-900">
-                  Timeline
+                <a href="/gallery" className="text-[#717275] font-[800] text-[16px] hover:text-gray-900">
+                Gallery
                 </a>
               </li>
 
@@ -103,13 +108,13 @@ const Header = () => {
               </a>
 
               <li>
-                <a href="#testimonial" className="text-[#717275] font-[800] text-[16px] hover:text-gray-900">
-                  Testimonials
+                <a href="/blogs" className="text-[#717275] font-[800] text-[16px] hover:text-gray-900">
+                Blog
                 </a>
               </li>
               <li>
-                <a href="#books" className="text-[#717275] font-[800] text-[16px] hover:text-gray-900">
-                  Booking
+                <a href="/books" className="text-[#717275] font-[800] text-[16px] hover:text-gray-900">
+                  Books
                 </a>
               </li>
               <li>

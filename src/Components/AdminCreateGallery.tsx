@@ -4,19 +4,23 @@ import { authorityDenied, checkAuthority } from '@/lib/utils/checkAdmin';
 import { convertImage } from '@/lib/utils/convertInputImageIntoBuffer';
 import { showToast } from '@/lib/utils/toast';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react'
 import { CiImageOn } from "react-icons/ci";
 import { MdCancel } from "react-icons/md";
 
-const AdminCreateGallery = ({setAllGalleries , setIsCreateGalleryPopupOpen}) => {
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-page-custom-font */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+const AdminCreateGallery = ({setAllGalleries , setIsCreateGalleryPopupOpen} : {setAllGalleries : any , setIsCreateGalleryPopupOpen : any}) => {
 
 	const [des, setDes] = useState<string>("");
 	const [imagePreview, setImagePreview] = useState<string>("")
-	const inputRef = useRef();
+	const inputRef = useRef<HTMLInputElement>(null);
 	const[image , setImage] = useState()
 
-	const handleInputChange = (e)=>{
+	const handleInputChange = (e:any)=>{
 		const  Image = e.target.files[0];
 		if(!Image) return;
 		setImage(Image)
@@ -25,11 +29,13 @@ const AdminCreateGallery = ({setAllGalleries , setIsCreateGalleryPopupOpen}) => 
 
 	const handleCancelImage = ()=>{
 		setImagePreview("");
-		inputRef.current.value = ""
+		if (inputRef.current) {
+			inputRef.current.value = "";
+		}
 	}
 
 	const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
-	const router = useRouter();
+	// const router = useRouter();
 
 	const hanldeSubmit = async()=>{
 
@@ -41,7 +47,11 @@ const AdminCreateGallery = ({setAllGalleries , setIsCreateGalleryPopupOpen}) => 
 
 		try{
 			const formData = new FormData();
-			formData.append("file" , image)
+
+			if(image){
+				formData.append("file" , image)
+			}
+
 			formData.append("des" , des);
 
 			const res = await axios({
@@ -53,7 +63,7 @@ const AdminCreateGallery = ({setAllGalleries , setIsCreateGalleryPopupOpen}) => 
 			console.log("Gallery response is " , galleryResponse)
 			// router.push("/admin/gallery")
 			setIsCreateGalleryPopupOpen(false)
-			setAllGalleries(prev=>{
+			setAllGalleries((prev:any)=>{
 				console.log("prev is " , prev)
 				return [...prev , galleryResponse?.data]
 			})
@@ -79,7 +89,7 @@ const AdminCreateGallery = ({setAllGalleries , setIsCreateGalleryPopupOpen}) => 
 				<div className='md:w-[70%] w-[90%] flex gap-[5px] items-center justify-between mt-[10px]'>
 					<input onChange={(e)=>handleInputChange(e)} ref={inputRef} hidden type="file" placeholder='enter description' />
 					<span>Enter the Cover Image for Gallery</span>
-					<CiImageOn onClick={()=> inputRef.current.click()} className='cursor-pointer' size={"22px"} />
+					<CiImageOn onClick={()=> inputRef.current?.click()} className='cursor-pointer' size={"22px"} />
 				</div>
 
 				{/* preview Image container */}
@@ -99,7 +109,7 @@ const AdminCreateGallery = ({setAllGalleries , setIsCreateGalleryPopupOpen}) => 
 				{/* description container */}
 				<div className='md:w-[70%] w-[90%]'>
 					<span>Enter the Description for this Image</span>
-					<textarea value={des} onChange={(e)=> setDes(e.target.value)} className='w-full border-[1px] border-solid border-gray-200 bg-gray-50 px-[5px] py-[10px] rounded-lg' type="text" placeholder='enter description' />
+					<textarea value={des} onChange={(e)=> setDes(e.target.value)} className='w-full border-[1px] border-solid border-gray-200 bg-gray-50 px-[5px] py-[10px] rounded-lg'  placeholder='enter description' />
 				</div>
 
 				{/* upload button container */}

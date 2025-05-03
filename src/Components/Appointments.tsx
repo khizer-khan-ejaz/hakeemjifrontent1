@@ -8,13 +8,17 @@ import React, { useState } from 'react'
 import { MdDelete } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
 
-const Appointments = ({ setAppointments, appointment }) => {
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-page-custom-font */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+const Appointments = ({ setAppointments, appointment }:any) => {
 
 	const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 	const [clickedOnDelete, setClickedOnDelete] = useState<boolean>(false);
 
 
-	const handleDelete = async (e) => {
+	const handleDelete = async (e:any) => {
 		const isAuthority = checkAuthority();
 		if(!isAuthority){
 			authorityDenied();
@@ -27,10 +31,13 @@ const Appointments = ({ setAppointments, appointment }) => {
 				method: "delete"
 			})
 			const deleteResponse = res.data;
+			if(deleteResponse.success){
+				showToast(deleteResponse.message , true)
+			}
 
 			// now remove this appointment from the state 
-			setAppointments(prev => {
-				return prev.filter(p => p._id != appointment._id)
+			setAppointments((prev:any) => {
+				return prev.filter((p:any) => p._id != appointment._id)
 			})
 			showToast("Appointment deleted" , true)
 
@@ -45,7 +52,7 @@ const Appointments = ({ setAppointments, appointment }) => {
 
 			{/* delete button container */}
 			<div className='absolute right-0 top-0'>
-				<MdDelete onClick={(e) => setClickedOnDelete(true)} className='text-white cursor-pointer' size={"20px"} />
+				<MdDelete onClick={() => setClickedOnDelete(true)} className='text-white cursor-pointer' size={"20px"} />
 			</div>
 
 			{/* contain for confirmation delete popup */}

@@ -1,12 +1,19 @@
-import React from 'react'
+"use client"
+
+import React, { useEffect, useState } from 'react'
 import { formatDate } from "@/lib/utils/formatDate"
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { useRouter, usePathname } from 'next/navigation';
 import { MdDeleteOutline } from "react-icons/md";
 import axios from 'axios';
 import { authorityDenied, checkAuthority } from '@/lib/utils/checkAdmin';
+import { showToast } from '@/lib/utils/toast';
 
-const Blogs = ({ blog , setBlogs }) => {
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-page-custom-font */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+const Blogs = ({ blog , setBlogs } : { blog : any , setBlogs : any }) => {
 
 	const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -21,7 +28,7 @@ const Blogs = ({ blog , setBlogs }) => {
 		}
 	}
 
-	const handleDelteBlog = async(e)=>{
+	const handleDelteBlog = async(e:any)=>{
 		const isAuthority = checkAuthority();
 		if(!isAuthority){
 			authorityDenied();
@@ -36,9 +43,12 @@ const Blogs = ({ blog , setBlogs }) => {
 			})
 
 			const response = res.data;
+			if(response.success){
+				showToast(response.message , true)
+			}
 			// now After deleting the blog , now we have to update the state
-			setBlogs((prev)=>{
-				return prev.filter(p=> p._id != blog._id)
+			setBlogs((prev:any)=>{
+				return prev.filter((p:any)=> p._id != blog._id)
 			})
 
 		}catch(err){
@@ -46,10 +56,15 @@ const Blogs = ({ blog , setBlogs }) => {
 		}
 	}
 
-	const isAdmin = localStorage.getItem("admin") || undefined
+	// const isAdmin = localStorage?.getItem("admin") || undefined
+	const[isAdmin , setIsAdmin] = useState<any>()
+
+	useEffect(()=>{
+		setIsAdmin(localStorage?.getItem("admin") || undefined)
+	},[])
 
 	return (
-		<div onClick={(e) => handleBlogClick(blog)} className='w-full flex flex-col rounded-md  p-[5px] cursor-pointer transition-all duration-200 shadow-xl'>
+		<div onClick={() => handleBlogClick(blog)} className='w-full flex flex-col rounded-md  p-[5px] cursor-pointer transition-all duration-200 shadow-xl'>
 
 			{/* blogs image container */}
 			<div className='w-full rounded-md h-auto md:h-[200px]'>

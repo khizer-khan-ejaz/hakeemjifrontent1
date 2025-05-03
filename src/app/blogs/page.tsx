@@ -1,16 +1,16 @@
-import BlogsContainer from '@/Components/BlogsContainer'
+// import BlogsContainer from '@/Components/BlogsContainer'
 import BlogsContainerForFetcingBlogsSSR from '@/Components/BlogsContainerForFetcingBlogsSSR'
 // import React, { useEffect, useState } from 'react'
 
-const AdminCreateBlog = ()=>{
-	return(
-		<div className='w-full flex justify-center items-center'>
-			<div className='w-[80%] flex items-center justify-end'>
-				<button> Create Blog +  </button>
-			</div>
-		</div>
-	)
-}
+// const AdminCreateBlog = ()=>{
+// 	return(
+// 		<div className='w-full flex justify-center items-center'>
+// 			<div className='w-[80%] flex items-center justify-end'>
+// 				<button> Create Blog +  </button>
+// 			</div>
+// 		</div>
+// 	)
+// }
 
 const BlogPage = () => {
 
