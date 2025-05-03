@@ -1,4 +1,4 @@
-import FetchGallerySSR from '@/Components/FetchGallerySSR'
+import FetchGallerySSR from '@/components/FetchGallerySSR'
 import React from 'react'
 
 const Gallery = () => {

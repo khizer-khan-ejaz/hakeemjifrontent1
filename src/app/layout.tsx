@@ -8,7 +8,7 @@ import "./globals.css";
 import '@icon/icofont/icofont.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Toast from "@/Components/ToastContainer";
+import Toast from "@/components/ToastContainer";
 
 
 const Header = dynamic(() => import('@/components/Header/Header'))

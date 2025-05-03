@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from "next/navigation"
 import axios from 'axios';
-import LoadingComp from '@/Components/LoadingComp';
+import LoadingComp from '@/components/LoadingComp';
 import { CiCalendarDate } from "react-icons/ci";
 import { formatDate } from '@/lib/utils/formatDate';
 import { CiEdit } from "react-icons/ci";

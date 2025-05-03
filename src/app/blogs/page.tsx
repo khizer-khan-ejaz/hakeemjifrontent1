@@ -1,5 +1,5 @@
 // import BlogsContainer from '@/Components/BlogsContainer'
-import BlogsContainerForFetcingBlogsSSR from '@/Components/BlogsContainerForFetcingBlogsSSR'
+import BlogsContainerForFetcingBlogsSSR from '@/components/BlogsContainerForFetcingBlogsSSR'
 // import React, { useEffect, useState } from 'react'
 
 // const AdminCreateBlog = ()=>{
