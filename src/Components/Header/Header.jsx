@@ -12,6 +12,7 @@ import axios from 'axios';
 import { showToast } from '@/lib/utils/toast';
 import { useDispatch } from 'react-redux';
 import { setUser } from '@/lib/store/features/auth/authSlice';
+ // Add this CSS file to your project
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -21,9 +22,9 @@ const Header = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    // Safe localStorage check that only runs client-side
+    // Only run on client side
     if (typeof window !== 'undefined') {
-      setIsAdmin(localStorage.getItem("admin") ? true : false);
+      setIsAdmin(!!localStorage.getItem("admin"));
     }
   }, [pathname]);
 
@@ -41,14 +42,12 @@ const Header = () => {
         showToast("Logout Successfully", true);
       }
 
-      // Safe localStorage operation
       if (typeof window !== 'undefined') {
-        localStorage.removeItem("admin"); // Using removeItem instead of clear
+        localStorage.removeItem("admin");
       }
       
       setIsAdmin(false);
       dispatch(setUser(undefined));
-
     } catch (err) {
       console.log("Error in handleLogout", err.message);
       showToast(err.message, false);
@@ -60,65 +59,65 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full">
-      <nav className="bg-white fixed top-0 left-0 right-0 shadow-lg z-50">
-        <div className="container mx-auto px-4 relative">
+    <header className="header">
+      <nav className="nav">
+        <div className="container">
           {/* Mobile Brand */}
-          <div className="lg:hidden text-center">
-            <a href="/" className="inline-block py-4">
-              <span className="text-[#65AAA1] text-xl">Medic Care</span>
-              <strong className="block text-[#65AAA1]">Health Specialist</strong>
+          <div className="mobile-brand">
+            <a href="/" className="brand-link">
+              <span className="brand-text">Medic Care</span>
+              <strong className="brand-subtext">Health Specialist</strong>
             </a>
           </div>
 
           {/* Hamburger Menu */}
           <button
-            className="lg:hidden absolute right-4 top-4 p-2"
+            className="hamburger"
             onClick={toggleNav}
             aria-label="Toggle navigation"
           >
-            <span className="block w-6 h-0.5 bg-gray-600 mb-1"></span>
-            <span className="block w-6 h-0.5 bg-gray-600 mb-1"></span>
-            <span className="block w-6 h-0.5 bg-gray-600"></span>
+            <span className="hamburger-line"></span>
+            <span className="hamburger-line"></span>
+            <span className="hamburger-line"></span>
           </button>
 
           {/* Navigation Links */}
-          <div className={`${isNavOpen ? 'flex' : 'hidden'} lg:flex py-4 justify-center items-center`}>
-            <ul className="w-full md:w-4/5 flex flex-col lg:flex-row justify-around items-center space-y-4 lg:space-y-0">
+          <div className={`nav-links ${isNavOpen ? 'open' : ''}`}>
+            <ul className="nav-menu">
               <li>
-                <a href="/" className="text-gray-500 font-bold text-base hover:text-gray-900">
+                <a href="/" className="nav-item">
                   Home
                 </a>
               </li>
               <li>
-                <a href="/about" className="text-gray-500 font-bold text-base hover:text-gray-900">
+                <a href="/about" className="nav-item">
                   About
                 </a>
               </li>
               <li>
-                <a href="/gallery" className="text-gray-500 font-bold text-base hover:text-gray-900">
+                <a href="/gallery" className="nav-item">
                   Gallery
                 </a>
               </li>
 
               {/* Desktop Brand */}
-              <a href="/" className="hidden lg:block text-center px-8 text-[#65AAA1] font-bold">
-                <span className="text-2xl font-semibold">Dr Naushad Ali Rana</span>
-                <strong className="block font-bold text-gray-500 -mt-2">Health Specialist</strong>
+              <a href="/" className="desktop-brand">
+                <span className="desktop-brand-text">Dr Naushad Ali Rana</span>
+                <strong className="desktop-brand-subtext">Health Specialist</strong>
               </a>
 
               <li>
-                <a href="/blogs" className="text-gray-500 font-bold text-base hover:text-gray-900">
+                <a href="/blogs" className="nav-item">
                   Blog
                 </a>
               </li>
               <li>
-                <a href="/books" className="text-gray-500 font-bold text-base hover:text-gray-900">
+                <a href="/books" className="nav-item">
                   Books
                 </a>
               </li>
               <li>
-                <a href="/contact" className="text-gray-500 font-bold text-base hover:text-gray-900">
+                <a href="/contact" className="nav-item">
                   Contact
                 </a>
               </li>
@@ -126,17 +125,17 @@ const Header = () => {
           </div>
 
           {/* login and logout container */}
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:block">
+          <div className="auth-container">
             {!isAdmin ? (
               <MdAccountCircle 
                 onClick={() => router.push("/admin/login")} 
-                className="cursor-pointer" 
+                className="auth-icon" 
                 size={25} 
               />
             ) : (
               <IoMdLogOut 
                 onClick={handleLogout} 
-                className="cursor-pointer" 
+                className="auth-icon" 
                 size={25} 
               />
             )}
