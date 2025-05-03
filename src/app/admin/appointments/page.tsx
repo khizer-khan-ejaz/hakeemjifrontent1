@@ -1,25 +1,14 @@
-'use client'; // If using app router
+// ./src/app/admin/appointments/page.tsx
+'use client'; // This marks it as a client component
 
-import dynamic from 'next/dynamic';
-import React from 'react';
+import FetchAppointmentsSSR from '@/Components/FetchAppointmentsSSR'
+import React from 'react'
 
-// Dynamic import with SSR disabled
-const FetchAppointmentsSSR = dynamic(
-  () => import('@/Components/FetchAppointmentsSSR'),
-  { ssr: false }
-);
-
-const AppointmentPage = () => {
+export default function AppointmentPage() {
   return (
     <div className='w-[100vw] h-[100vh]'>
       <FetchAppointmentsSSR />
     </div>
-  );
-};
+  )
+}
 
-// If using pages router, add this to prevent prerendering
-export const getServerSideProps = async () => {
-  return { props: {} };
-};
-
-export default AppointmentPage;
