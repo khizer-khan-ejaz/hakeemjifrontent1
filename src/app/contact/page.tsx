@@ -1,4 +1,4 @@
-import Appoinment from '@/components/Appoinment/Appoinment'
+import Appoinment from '@/Components/Appoinment/Appoinment'
 import React from 'react'
 
 const ContactPage = () => {

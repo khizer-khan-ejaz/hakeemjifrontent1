@@ -5,7 +5,7 @@
 /* eslint-disable @next/next/no-page-custom-font */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import AdminCreateBlogs from '@/components/AdminSection/AdminCreateBlogs'
+import AdminCreateBlogs from '@/Components/AdminSection/AdminCreateBlogs'
 import axios from 'axios'
 import { useSearchParams } from "next/navigation"
 import React, { useEffect, useState } from 'react'

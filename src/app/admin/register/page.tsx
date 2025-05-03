@@ -1,4 +1,4 @@
-import RegisterAdmin from '@/components/RegisterAdmin'
+import RegisterAdmin from '@/Components/RegisterAdmin'
 import React from 'react'
 
 const RegisterPage = () => {

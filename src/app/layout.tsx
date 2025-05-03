@@ -8,11 +8,11 @@ import "./globals.css";
 import '@icon/icofont/icofont.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Toast from "@/components/ToastContainer";
+import Toast from "@/Components/ToastContainer";
 
 
-const Header = dynamic(() => import('@/components/Header/Header'))
-const Footer = dynamic(() => import('@/components/Footer/Footer'))
+const Header = dynamic(() => import('@/Components/Header/Header'))
+const Footer = dynamic(() => import('@/Components/Footer/Footer'))
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

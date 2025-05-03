@@ -1,4 +1,4 @@
-import FetchAppointmentsSSR from '@/components/FetchAppointmentsSSR'
+import FetchAppointmentsSSR from '@/Components/FetchAppointmentsSSR'
 import React from 'react'
 
 const AppointmentPage = () => {

@@ -1,12 +1,12 @@
-import About from "@/components/About/About";
-import Appoinment from "@/components/Appoinment/Appoinment";
-import Counter from "@/components/Counter/Counter";
-import Features from "@/components/Features/Features";
-import HeroBanner from "@/components/HeroBanner/HeroBanner";
-import Services from "@/components/Services/Services";
-import BookList from "@/components/book/book";
-import Gallery from "@/components/gallery/gallery";
-import Testimonial from "@/components/Testimonial/Testimonial";
+import About from "@/Components/About/About";
+import Appoinment from "@/Components/Appoinment/Appoinment";
+import Counter from "@/Components/Counter/Counter";
+import Features from "@/Components/Features/Features";
+import HeroBanner from "@/Components/HeroBanner/HeroBanner";
+import Services from "@/Components/Services/Services";
+import BookList from "@/Components/book/book";
+import Gallery from "@/Components/gallery/gallery";
+import Testimonial from "@/Components/Testimonial/Testimonial";
 import 'bootstrap/dist/css/bootstrap.css';
 
 export default function Home() {
